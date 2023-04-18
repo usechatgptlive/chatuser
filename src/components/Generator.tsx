@@ -12,6 +12,7 @@ import Charge from './Charge.jsx'
 import ErrorMessageItem from './ErrorMessageItem'
 import SettingItem from './SettingItem.jsx'
 import type { ChatMessage, ErrorMessage, Setting, User } from '@/types'
+import Clipboard from "clipboard";
 
 export default () => {
   let inputRef: HTMLTextAreaElement
@@ -34,9 +35,12 @@ export default () => {
     email: '',
     nickname: '',
     times: 0,
+    inv_switch: 0,
+    inv_gift: 0,
     token: '',
+    share_code: '',
   })
-
+  let code = ""
   onMount(async() => {
     try {
       // 读取设置
@@ -68,8 +72,36 @@ export default () => {
     } catch (err) {
       console.error(err)
     }
-  })
 
+    code = getQueryVariable('code')
+    console.log(code)
+  })
+  const getUrl=()=>{
+    let invite_url = ""
+    let port = location.port
+    if(document.domain=='localhost'){
+      invite_url = 'http://'+document.domain 
+    }else{
+      invite_url = 'https://'+document.domain 
+    }
+    if(port!=80){
+      invite_url = invite_url+':'+port
+    }
+    invite_url = invite_url +'?code='+ user().share_code
+          
+    console.log(invite_url)
+    return invite_url
+  }
+  //获取query
+  const  getQueryVariable = (variable)=>{
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i=0;i<vars.length;i++) {
+          var pair = vars[i].split("=");
+          if(pair[0] == variable){return pair[1];}
+      }
+      return(false);
+  }
   const handleButtonClick = async() => {
     const inputValue = inputRef.value
     console.log(inputValue)
@@ -255,6 +287,25 @@ export default () => {
     // requestWithLatestMessage()
   }
 
+  const copyFun = ()=> {
+    let clipboard = new Clipboard("#copy", {
+        text: () => {
+          //返回需要复制的字符串
+          return getUrl();
+        },
+      });
+      clipboard.on("success", () => {
+        console.log('success')
+        clipboard.destroy();
+        alert('复制成功')
+      });
+      clipboard.on("error", () => {
+        console.log('error')
+        clipboard.destroy();
+        alert('复制失败')
+      });
+  }
+
   return (
     <div my-1>
       <div>
@@ -276,6 +327,7 @@ export default () => {
         <Login
           setIsLogin={setIsLogin}
           setUser={setUser}
+          code={code}
         />
       </Show>
 
@@ -377,6 +429,15 @@ export default () => {
             </button>
           </div>
         </Show >
+        <Show when={user().inv_switch==1} >
+          <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+          <span>邀请福利:每邀请一个好友注册可获得{user().inv_gift}次额度.</span><br/>
+          <span>邀请链接:</span>
+          <span>{getUrl()}</span>
+          <button onClick={copyFun} id="copy">点击复制</button>
+          </div>
+        </Show>
+        
       </Show>
     </div >
   )

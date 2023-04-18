@@ -4,11 +4,14 @@ import type { Setter } from 'solid-js'
 interface Props {
   setIsLogin: Setter<boolean>
   setUser: Setter<User>
+  code:''
+  inv_switch:0
 }
 
 export default (props: Props) => {
   let emailRef: HTMLInputElement
   let codeRef: HTMLInputElement
+  let shareCodeRef: HTMLInputElement
 
   const [countdown, setCountdown] = createSignal(0)
 
@@ -21,6 +24,7 @@ export default (props: Props) => {
       body: JSON.stringify({
         email: emailRef.value,
         code: codeRef.value,
+        shareCode:shareCodeRef.value
       }),
     })
     const responseJson = await response.json()
@@ -88,6 +92,18 @@ export default (props: Props) => {
           </div>
         </Show>
       </div>
+      <Show when={props.code!=""}>
+       <div class="flex mt-2 justify-center items-center">
+        <input
+          ref={shareCodeRef!}
+          placeholder="邀请码(选填)"
+          type="text"
+          readonly
+          class="gpt-password-input w-full"
+          value={props.code}
+        />
+        </div>       
+      </Show>
 
       <button onClick={login} class="w-1/3 h-12 mt-2 px-4 py-2 bg-slate bg-op-15 hover:bg-op-20 rounded-sm">
         开始使用
