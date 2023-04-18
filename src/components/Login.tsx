@@ -24,7 +24,7 @@ export default (props: Props) => {
       body: JSON.stringify({
         email: emailRef.value,
         code: codeRef.value,
-        shareCode:shareCodeRef.value
+        shareCode:shareCodeRef?shareCodeRef.value:''
       }),
     })
     const responseJson = await response.json()
