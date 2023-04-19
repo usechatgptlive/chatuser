@@ -84,7 +84,7 @@ export default () => {
     }else{
       invite_url = 'https://'+document.domain 
     }
-    if(port!=80){
+    if((port)&&(port!=80)){
       invite_url = invite_url+':'+port
     }
     invite_url = invite_url +'?code='+ user().share_code
