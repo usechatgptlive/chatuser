@@ -51,6 +51,8 @@ export default (props: Props) => {
     const responseJson = await response.json()
     if (responseJson.code === 200) {
       setUrl(responseJson.data.url)
+      let flow_id = responseJson.data.flow_id
+      console.log(flow_id)
       setCountdown(300)
       const intv = setInterval(() => {
         setCountdown(countdown() - 1)
@@ -73,6 +75,7 @@ export default (props: Props) => {
             },
             body: JSON.stringify({
               token: localStorage.getItem('token'),
+              flow_id:flow_id,
             }),
           })
           const responseJson = await response.json()
@@ -82,6 +85,7 @@ export default (props: Props) => {
               alert(responseJson.data.msg)
               props.setShowCharge(false)
               setUrl('')
+              clearInterval(intv2)
             }
           }
         }
@@ -95,6 +99,7 @@ export default (props: Props) => {
     <div id="input_container" class="mt-2 max-w-[450px]">
       <div>
         <Show when={!url()}>
+        <a href="https://appfront0220.s3.ap-southeast-1.amazonaws.com/qmzc/2023-02-23/WechatIMG35.jpeg">如充值未到账或有使用问题,请点击联系客服</a><br/>
           <span class="text-sm">
             请选择充值金额
           </span>

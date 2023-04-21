@@ -428,6 +428,7 @@ export default () => {
               <IconClear />
             </button>
           </div>
+          <a class="mt-2 text-xs text-gray-500" href="https://appfront0220.s3.ap-southeast-1.amazonaws.com/qmzc/2023-02-23/WechatIMG35.jpeg">如充值未到账或有使用问题,请点击联系客服</a>
         </Show >
         <Show when={user().inv_switch==1} >
           <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
