@@ -134,7 +134,7 @@ export default (props: Props) => {
           <img class="w-1/3 mt-2" src={url()} />
           <Show when={qr}>
             <div class="flex space-x-2">
-              <a href={qr} class="w-1/4 h-12 mt-2 px-4 py-2 bg-slate bg-op-15 hover:bg-op-20 rounded-sm">去支付
+              <a href={qr} class="w-1/3 h-12 mt-2 px-4 py-2 bg-slate bg-op-15 hover:bg-op-20 rounded-sm">去支付
               </a>
             </div>
           </Show>
