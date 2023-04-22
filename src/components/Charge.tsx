@@ -11,6 +11,7 @@ export default (props: Props) => {
 
   const [countdown, setCountdown] = createSignal(0)
   const [url, setUrl] = createSignal('')
+  let qr = ""
 
   const selfCharge = async() => {
     const response = await fetch('/api/exchange', {
@@ -36,8 +37,15 @@ export default (props: Props) => {
   const close = () => {
     props.setShowCharge(false)
   }
+  const isMobile = () => {
+      let flag = navigator.userAgent.match(
+          /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+      );
+      return flag;
+  }
 
   const getPaycode = async(price) => {
+    qr = ""
     const response = await fetch('/api/getpaycode', {
       method: 'POST',
       headers: {
@@ -50,6 +58,10 @@ export default (props: Props) => {
     })
     const responseJson = await response.json()
     if (responseJson.code === 200) {
+      console.log(isMobile())
+      if(isMobile()){
+        qr = responseJson.data.qr
+      }
       setUrl(responseJson.data.url)
       let flow_id = responseJson.data.flow_id
       console.log(flow_id)
@@ -120,6 +132,12 @@ export default (props: Props) => {
             请在{countdown()}秒内完成支付
           </span>
           <img class="w-1/3 mt-2" src={url()} />
+          <Show when={qr}>
+            <div class="flex space-x-2">
+              <a href={qr} class="w-1/4 h-12 mt-2 px-4 py-2 bg-slate bg-op-15 hover:bg-op-20 rounded-sm">去支付
+              </a>
+            </div>
+          </Show>
         </Show>
 
       </div>
