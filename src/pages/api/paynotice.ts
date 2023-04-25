@@ -5,7 +5,7 @@ export const post: APIRoute = async(context) => {
 
   const { token,flow_id } = body
 
-  const response = await fetch(`${import.meta.env.API_URL}/api/gpt/payOrderNotice`, {
+  const response = await fetch(`${import.meta.env.API_URL}/api/gpt/paynotice`, {
     headers: {
       'Content-Type': 'application/json',
       'Token': token,
