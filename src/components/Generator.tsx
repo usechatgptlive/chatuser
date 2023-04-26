@@ -318,7 +318,7 @@ export default () => {
         <Show when={isLogin() && user().nickname}>
           <p mt-1 op-60>
             Hi,{user().nickname} 剩余额度{user().times}次
-            <span onClick={() => { setShowCharge(true) }} class="border-1 px-2 py-1 ml-2 rounded-md transition-colors bg-slate/20 cursor-pointer hover:bg-slate/50">支付宝充值</span>
+            <span onClick={() => { setShowCharge(true) }} class="border-1 px-2 py-1 ml-2 rounded-md transition-colors bg-slate/20 cursor-pointer hover:bg-slate/50">微信充值</span>
           </p>
         </Show>
       </div>
