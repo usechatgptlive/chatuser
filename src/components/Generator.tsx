@@ -428,6 +428,7 @@ export default () => {
               <IconClear />
             </button>
           </div>
+          <p class="mt-2 text-xs text-gray-500">注意:连续对话消耗的次数会递增,每次最高消耗为5;不需要可关闭上方绿色按钮,每次只会消耗1,但无法理解上下文.</p>
           <a class="mt-2 text-xs text-gray-500" href="https://appfront0220.s3.ap-southeast-1.amazonaws.com/qmzc/2023-02-23/WechatIMG35.jpeg">如充值未到账或有使用问题,请点击联系客服</a>
         </Show >
         <Show when={user().inv_switch==1} >
