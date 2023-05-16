@@ -116,14 +116,14 @@ export default (props: Props) => {
             充值优惠活动进行中,请选择充值金额
           </span>
           <div class="flex space-x-2">
-            <button onClick={() => { getPaycode(5) }} class="w-1/3 h-12 mt-2 px-4 py-2 bg-slate bg-op-15 hover:bg-op-20 rounded-sm">
-              5元380次
+            <button onClick={() => { getPaycode(5) }} class="w-1/3 text-xs h-12 mt-2 px-4 py-2 bg-slate bg-op-15 hover:bg-op-20 rounded-sm">
+              5元380次(原320)
             </button>
-            <button onClick={() => { getPaycode(10) }} class="w-1/3 h-12 mt-2 px-4 py-2 bg-slate bg-op-15 hover:bg-op-20 rounded-sm">
-              10元820次
+            <button onClick={() => { getPaycode(10) }} class="w-1/3 text-xs h-12 mt-2 px-4 py-2 bg-slate bg-op-15 hover:bg-op-20 rounded-sm">
+              10元820次(原650)
             </button>
-            <button onClick={() => { getPaycode(20) }} class="w-1/3 h-12 mt-2 px-4 py-2 bg-slate bg-op-15 hover:bg-op-20 rounded-sm">
-              20元2200次
+            <button onClick={() => { getPaycode(20) }} class="w-1/3 text-xs h-12 mt-2 px-4 py-2 bg-slate bg-op-15 hover:bg-op-20 rounded-sm">
+              20元2200次(原1800)
             </button>
           </div>
         </Show>
