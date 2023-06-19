@@ -113,17 +113,17 @@ export default (props: Props) => {
         <Show when={!url()}>
         <a href="https://appfront0220.s3.ap-southeast-1.amazonaws.com/qmzc/2023-02-23/WechatIMG35.jpeg">如充值未到账或有使用问题,请点击联系客服</a><br/>
           <span class="text-sm">
-            充值优惠活动进行中,6月18号结束,请选择充值金额
+            请选择充值金额
           </span>
           <div class="flex space-x-2">
             <button onClick={() => { getPaycode(5) }} class="w-1/3 text-xs h-12 mt-2 px-4 py-2 bg-slate bg-op-15 hover:bg-op-20 rounded-sm">
-              5元380次(原320)
+              5元320次
             </button>
             <button onClick={() => { getPaycode(10) }} class="w-1/3 text-xs h-12 mt-2 px-4 py-2 bg-slate bg-op-15 hover:bg-op-20 rounded-sm">
-              10元820次(原650)
+              10元650次
             </button>
             <button onClick={() => { getPaycode(20) }} class="w-1/3 text-xs h-12 mt-2 px-4 py-2 bg-slate bg-op-15 hover:bg-op-20 rounded-sm">
-              20元2200次(原1800)
+              20元2000次
             </button>
           </div>
         </Show>
