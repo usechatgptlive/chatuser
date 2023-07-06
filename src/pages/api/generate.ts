@@ -5,9 +5,9 @@ import { generatePayload, parseOpenAIStream } from '@/utils/openAI'
 import { verifySignature } from '@/utils/auth'
 import type { APIRoute } from 'astro'
 
-const apiKey = import.meta.env.OPENAI_API_KEY
+let apiKey = import.meta.env.OPENAI_API_KEY
 const httpsProxy = import.meta.env.HTTPS_PROXY
-const baseUrl = ((import.meta.env.OPENAI_API_BASE_URL) || 'https://api.openai.com').trim().replace(/\/$/, '')
+let baseUrl = ((import.meta.env.OPENAI_API_BASE_URL) || 'https://api.openai.com').trim().replace(/\/$/, '')
 const sitePassword = import.meta.env.SITE_PASSWORD
 const API_URL = import.meta.env.API_URL
 
@@ -36,7 +36,6 @@ export const post: APIRoute = async(context) => {
     }), { status: 401 })
   }
 
-
   // 消耗次数
   const useRes = await fetch(`${API_URL}/api/gpt/consume`, {
     headers: {
@@ -56,13 +55,28 @@ export const post: APIRoute = async(context) => {
   if (resJson.code !== 200)
     return new Response(resJson.message)
 
-  messages.unshift({ 
-    role: 'system', 
-    content: '你是GPT-4,比GPT3更聪明,请认真思考后回答', 
+  const domainRes = await fetch(`${import.meta.env.API_URL}/api/gpt/getChatInfo`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: JSON.stringify({
+      app_key: import.meta.env.APP_KEY,
+    }),
   })
-  messages.unshift({ 
-    role: 'system', 
-    content: '你是GPT4,比GPT3更聪明,请认真思考后回答', 
+  const chatInfo = await domainRes.json()
+  if (chatInfo.data && chatInfo.data.domain) {
+    apiKey = chatInfo.data.key
+    baseUrl = chatInfo.data.domain
+  }
+
+  messages.unshift({
+    role: 'system',
+    content: '你是GPT-4,比GPT3更聪明,请认真思考后回答',
+  })
+  messages.unshift({
+    role: 'system',
+    content: '你是GPT4,比GPT3更聪明,请认真思考后回答',
   })
   const initOptions = generatePayload(apiKey, messages)
   // #vercel-disable-blocks
