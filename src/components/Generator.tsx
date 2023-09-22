@@ -1,6 +1,7 @@
 import { Index, Show, createSignal, onMount } from 'solid-js'
 import { useThrottleFn } from 'solidjs-use'
 // import { getDate } from '@/utils/func'
+import Clipboard from 'clipboard'
 import { generateSignature } from '@/utils/auth'
 import Qustion from './Question.js'
 import IconClear from './icons/Clear'
@@ -12,7 +13,6 @@ import Charge from './Charge.jsx'
 import ErrorMessageItem from './ErrorMessageItem'
 import SettingItem from './SettingItem.jsx'
 import type { ChatMessage, ErrorMessage, Setting, User } from '@/types'
-import Clipboard from "clipboard";
 
 export default () => {
   let inputRef: HTMLTextAreaElement
@@ -40,7 +40,7 @@ export default () => {
     token: '',
     share_code: '',
   })
-  let code = ""
+  let code = ''
   onMount(async() => {
     try {
       // 读取设置
@@ -76,31 +76,31 @@ export default () => {
     code = getQueryVariable('code')
     console.log(code)
   })
-  const getUrl=()=>{
-    let invite_url = ""
-    let port = location.port
-    if(document.domain=='localhost'){
-      invite_url = 'http://'+document.domain 
-    }else{
-      invite_url = 'https://'+document.domain 
-    }
-    if((port)&&(port!=80)){
-      invite_url = invite_url+':'+port
-    }
-    invite_url = invite_url +'?code='+ user().share_code
-          
+  const getUrl = () => {
+    let invite_url = ''
+    const port = location.port
+    if (document.domain == 'localhost')
+      invite_url = `http://${document.domain}`
+    else
+      invite_url = `https://${document.domain}`
+
+    if ((port) && (port != 80))
+      invite_url = `${invite_url}:${port}`
+
+    invite_url = `${invite_url}?code=${user().share_code}`
+
     console.log(invite_url)
     return invite_url
   }
-  //获取query
-  const  getQueryVariable = (variable)=>{
-      var query = window.location.search.substring(1);
-      var vars = query.split("&");
-      for (var i=0;i<vars.length;i++) {
-          var pair = vars[i].split("=");
-          if(pair[0] == variable){return pair[1];}
-      }
-      return(false);
+  // 获取query
+  const getQueryVariable = (variable) => {
+    const query = window.location.search.substring(1)
+    const vars = query.split('&')
+    for (let i = 0; i < vars.length; i++) {
+      const pair = vars[i].split('=')
+      if (pair[0] == variable) return pair[1]
+    }
+    return (false)
   }
   const handleButtonClick = async() => {
     const inputValue = inputRef.value
@@ -287,23 +287,23 @@ export default () => {
     // requestWithLatestMessage()
   }
 
-  const copyFun = ()=> {
-    let clipboard = new Clipboard("#copy", {
-        text: () => {
-          //返回需要复制的字符串
-          return getUrl();
-        },
-      });
-      clipboard.on("success", () => {
-        console.log('success')
-        clipboard.destroy();
-        alert('复制成功')
-      });
-      clipboard.on("error", () => {
-        console.log('error')
-        clipboard.destroy();
-        alert('复制失败')
-      });
+  const copyFun = () => {
+    const clipboard = new Clipboard('#copy', {
+      text: () => {
+        // 返回需要复制的字符串
+        return getUrl()
+      },
+    })
+    clipboard.on('success', () => {
+      console.log('success')
+      clipboard.destroy()
+      alert('复制成功')
+    })
+    clipboard.on('error', () => {
+      console.log('error')
+      clipboard.destroy()
+      alert('复制失败')
+    })
   }
 
   return (
@@ -430,17 +430,17 @@ export default () => {
           </div>
           <p class="mt-2 text-xs text-gray-500">注意:连续对话消耗的次数会递增,每次最高消耗为5;不需要可关闭上方绿色按钮,每次只会消耗1,但无法理解上下文.</p>
           <a class="mt-2 text-xs text-gray-500" href="https://appfront0220.s3.ap-southeast-1.amazonaws.com/qmzc/2023-02-23/WechatIMG35.jpeg">如充值未到账或有使用问题,请点击联系客服</a>
-          <p class="mt-2 text-xs text-yellow-800">提示：建议收藏永久入口: https://tdimg.s3.ap-east-1.amazonaws.com/gpt3.5.html 防止域名被墙失联。</p>
+          <p class="mt-2 text-xs text-yellow-800">提示：建议收藏永久入口: https://gpt107.chatxyz.online/ 防止域名被墙失联。</p>
         </Show >
-        <Show when={user().inv_switch==1} >
+        <Show when={user().inv_switch == 1} >
           <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-          <span>邀请福利:每邀请一个好友注册可获得{user().inv_gift}次额度.</span><br/>
-          <span>邀请链接:</span>
-          <span>{getUrl()}</span>
-          <button onClick={copyFun} id="copy">点击复制</button>
+            <span>邀请福利:每邀请一个好友注册可获得{user().inv_gift}次额度.</span><br />
+            <span>邀请链接:</span>
+            <span>{getUrl()}</span>
+            <button onClick={copyFun} id="copy">点击复制</button>
           </div>
         </Show>
-        
+
       </Show>
     </div >
   )
